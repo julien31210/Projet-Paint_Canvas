@@ -11,11 +11,11 @@ var ctx;
         var duringY 
         var endX
         var endY
-
+        var isActive = false
 
      ctx = document.getElementById('myCanvas').getContext("2d");
 
-$("#line").click(function(){
+$("#line").click(function(){ 
     Line();
 })
 $("#carre").click(function(){
@@ -23,8 +23,8 @@ $("#carre").click(function(){
 })
 
 
-function Line() {
-
+function Line(arg) {
+    console.log(arg);
     $('#myCanvas').mousedown(function (e) {
         mousePressed = true;
         originX = e.pageX - $(this).offset().left
