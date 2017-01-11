@@ -38,6 +38,8 @@ function InitThis() {
         endY = e.pageY - $(this).offset().top
         console.log(endX)
         console.log(endY)
+        DrawRectangle(endX, endY, false);
+
     });
 	
     $('#myCanvas').mouseleave(function (e) {
@@ -52,7 +54,20 @@ function Draw(x, y, isDown) {
         ctx.beginPath();
         ctx.strokeStyle = $('#selColor').val();
         ctx.lineWidth = $('#selWidth').val();
-        ctx.lineJoin = "round";
+        ctx.lineJoin = "round   ";
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.closePath();
+        ctx.stroke();
+    }
+    lastX = x; lastY = y;
+}
+
+function Line(x, y, isDown) {
+    if (isDown) {
+        ctx.beginPath();
+        ctx.strokeStyle = $('#selColor').val();
+        ctx.lineWidth = $('#selWidth').val();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(x, y);
         ctx.closePath();
@@ -62,7 +77,8 @@ function Draw(x, y, isDown) {
 }
 
 
-function DrawRectangle() {
+function DrawRectangle(x, y, isDown) {
+    if (isDown) {
         var width= endX-originX;
         console.log(width);
         var height= endY-originY;
@@ -73,6 +89,7 @@ function DrawRectangle() {
         ctx.stroke();
         ctx.closePath();
     }
+}
 
 
 
