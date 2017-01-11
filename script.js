@@ -2,29 +2,39 @@ $(document).ready(function(){
 
 
 var mousePressed = false;
-var lastX, lastY;
+var lastX, lastY, originX, originY, duringX, duringY, endX, endY, tool;
 var ctx;
+ctx = document.getElementById('myCanvas').getContext("2d");
 
-        var originX 
-        var originY 
-        var duringX
-        var duringY 
-        var endX
-        var endY
+         
         var isActive = false
 
-     ctx = document.getElementById('myCanvas').getContext("2d");
+
+// $('button').each(function () {
+//     var $this = $(this);
+//     $this.on("click", function () {
+//         tool = ($(this).data('tools'));
+//         console.log(tool);
+//     });
+// });
+
+// if ($('button').click && tool == "square") {
+//     console.log("carré!");
+//     Rec();
+// }
 
 $("#line").click(function(){ 
     Line();
+    isActive = !isActive
 })
 $("#carre").click(function(){
     Rec();
+    isActive = !isActive
 })
 
 
-function Line(arg) {
-    console.log(arg);
+function Line() {
+    console.log();
     $('#myCanvas').mousedown(function (e) {
         mousePressed = true;
         originX = e.pageX - $(this).offset().left
@@ -43,6 +53,7 @@ function Line(arg) {
         Draw(duringX, duringY, true);
         }
     });
+    
 
     $('#myCanvas').mouseup(function (e) {
         mousePressed = false;
@@ -123,7 +134,6 @@ function DrawRectangle(x, y, isDown) {
         console.log(height)
         ctx.beginPath();
         ctx.rect(originX, originY, width,height);
-        ctx.fill();
         ctx.stroke();
         ctx.closePath();
     }
