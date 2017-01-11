@@ -1,3 +1,6 @@
+$(document).ready(function(){
+
+
 var mousePressed = false;
 var lastX, lastY;
 var ctx;
@@ -9,37 +12,46 @@ var ctx;
         var endX
         var endY
 
-function InitThis() {
-    
-    ctx = document.getElementById('myCanvas').getContext("2d");
+
+     ctx = document.getElementById('myCanvas').getContext("2d");
+
+$("#line").click(function(){
+    Line();
+})
+$("#carre").click(function(){
+    Rec();
+})
+
+
+function Line() {
 
     $('#myCanvas').mousedown(function (e) {
         mousePressed = true;
         originX = e.pageX - $(this).offset().left
         originY = e.pageY - $(this).offset().top
-        console.log(originX);
-        console.log(originY);
-        DrawRectangle(originX, originY, false);
+        // console.log(originX);
+        // console.log(originY);
+        Draw(originX, originY, false);
     });
 
     $('#myCanvas').mousemove(function (e) {
         if (mousePressed) {
         duringX = e.pageX - $(this).offset().left
         duringY = e.pageY - $(this).offset().top
-        console.log(duringX)
-        console.log(duringY)
-        DrawRectangle(duringX, duringY, true);
+        // console.log(duringX)
+        // console.log(duringY)
+        Draw(duringX, duringY, true);
         }
     });
 
     $('#myCanvas').mouseup(function (e) {
         mousePressed = false;
+    
         endX = e.pageX - $(this).offset().left
         endY = e.pageY - $(this).offset().top
-        console.log(endX)
-        console.log(endY)
-        DrawRectangle(endX, endY, false);
-
+        // console.log(endX)
+        // console.log(endY)
+        Draw(duringX, duringY, true);
     });
 	
     $('#myCanvas').mouseleave(function (e) {
@@ -49,25 +61,51 @@ function InitThis() {
 
 
 
+function Rec() {
+    
+    ctx = document.getElementById('myCanvas').getContext("2d");
+
+    $('#myCanvas').mousedown(function (e) {
+        mousePressed = true;
+        originX = e.pageX - $(this).offset().left
+        originY = e.pageY - $(this).offset().top
+        // console.log(originX);
+        // console.log(originY);
+        DrawRectangle(originX, originY, false);
+    });
+
+    $('#myCanvas').mousemove(function (e) {
+        if (mousePressed) {
+        duringX = e.pageX - $(this).offset().left
+        duringY = e.pageY - $(this).offset().top
+        // console.log(duringX)
+        // console.log(duringY)
+        DrawRectangle(duringX, duringY, false);
+        }
+    });
+
+    $('#myCanvas').mouseup(function (e) {
+        mousePressed = false;
+    
+        endX = e.pageX - $(this).offset().left
+        endY = e.pageY - $(this).offset().top
+        // console.log(endX)
+        // console.log(endY)
+        DrawRectangle(duringX, duringY, true);
+    });
+	
+    $('#myCanvas').mouseleave(function (e) {
+        mousePressed = false;
+    });
+}
+
+
 function Draw(x, y, isDown) {
     if (isDown) {
         ctx.beginPath();
         ctx.strokeStyle = $('#selColor').val();
         ctx.lineWidth = $('#selWidth').val();
-        ctx.lineJoin = "round   ";
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(x, y);
-        ctx.closePath();
-        ctx.stroke();
-    }
-    lastX = x; lastY = y;
-}
-
-function Line(x, y, isDown) {
-    if (isDown) {
-        ctx.beginPath();
-        ctx.strokeStyle = $('#selColor').val();
-        ctx.lineWidth = $('#selWidth').val();
+        ctx.lineJoin = "round";
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(x, y);
         ctx.closePath();
@@ -89,13 +127,21 @@ function DrawRectangle(x, y, isDown) {
         ctx.stroke();
         ctx.closePath();
     }
+        lastX = x; lastY = y;
 }
 
 
 
-	
+$("#clear").click(function(){
+    console.log("cleeaaar")
+    clearArea();
+})
 function clearArea() {
-    // Use the identity matrix while clearing the canvas
+
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
+
+
+    
+})
