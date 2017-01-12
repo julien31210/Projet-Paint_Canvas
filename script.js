@@ -1,114 +1,176 @@
 $(document).ready(function(){
 
-
 var mousePressed = false;
-var lastX, lastY, originX, originY, duringX, duringY, endX, endY, tool;
+var lastX, lastY, originX, originY, duringX, duringY, endX, endY;
 var ctx;
-ctx = document.getElementById('myCanvas').getContext("2d");
+var canvas = document.getElementById('myCanvas')
+ctx = canvas.getContext("2d");
+var isActiveLine;
+var isActiveRec;
+       
+$('button').each(function () {
+    var $this = $(this);
+    $this.on("click", function () {
+        
+        var tool = ($(this).data('tools'));
+        // console.log(tool);
 
-         
-        var isActive = false
 
 
-// $('button').each(function () {
-//     var $this = $(this);
-//     $this.on("click", function () {
-//         tool = ($(this).data('tools'));
-//         console.log(tool);
-//     });
-// });
+    $('#myCanvas').mousedown(function (e) {
+        mousePressed = true;
+        originX = e.pageX - $(this).offset().left
+        originY = e.pageY - $(this).offset().top
+
+         if (tool == "brushOn") {
+           
+            console.log("brush on")
+             Draw();
+        } else if (tool == "brushOff"){
+            console.log("brush off")
+            canvas.oncontextmenu = function() {
+                    return false;
+                    console.log(canvas.oncontextmenu)
+                }
+        }
+        if (tool == "squareOn") {
+            console.log("square on")
+            DrawRectangle();
+        } else if (tool == "squareOff"){
+            console.log("square off")
+            canvas.oncontextmenu = function() {
+                    return false;
+                }
+        }
+    });
+
+    $('#myCanvas').mousemove(function (e) {
+        if (mousePressed) {
+        duringX = e.pageX - $(this).offset().left
+        duringY = e.pageY - $(this).offset().top
+        
+    
+
+}
+    });
+
+    $('#myCanvas').mouseup(function (e) {
+        mousePressed = false;
+        endX = e.pageX - $(this).offset().left
+        endY = e.pageY - $(this).offset().top
+    });
+	
+    $('#myCanvas').mouseleave(function (e) {
+        mousePressed = false;
+    });
+
+
+       
+        
+
+
+
+    });
+});
 
 // if ($('button').click && tool == "square") {
 //     console.log("carré!");
 //     Rec();
 // }
 
-$("#line").click(function(){ 
-    Line();
-    isActive = !isActive
-})
-$("#carre").click(function(){
-    Rec();
-    isActive = !isActive
-})
+// $("#line").click(function(){ 
+//     if (isActive) {
+//         Line(); 
+//     } else {
+//         isActive = false;
+//     }
+// })
+
+// $("#carre").click(function(){
+//     if (isActive) {
+//         Rec()
+//     } else {
+//         isActive = false
+//     }
+// })
 
 
-function Line() {
-    console.log();
-    $('#myCanvas').mousedown(function (e) {
-        mousePressed = true;
-        originX = e.pageX - $(this).offset().left
-        originY = e.pageY - $(this).offset().top
-        // console.log(originX);
-        // console.log(originY);
-        Draw(originX, originY, false);
-    });
 
-    $('#myCanvas').mousemove(function (e) {
-        if (mousePressed) {
-        duringX = e.pageX - $(this).offset().left
-        duringY = e.pageY - $(this).offset().top
-        // console.log(duringX)
-        // console.log(duringY)
-        Draw(duringX, duringY, true);
-        }
-    });
-    
+// function Line() {
 
-    $('#myCanvas').mouseup(function (e) {
-        mousePressed = false;
-    
-        endX = e.pageX - $(this).offset().left
-        endY = e.pageY - $(this).offset().top
-        // console.log(endX)
-        // console.log(endY)
-        Draw(duringX, duringY, true);
-    });
+//     if (isActiveLine = true) {
+        
+//     console.log();
+//     $('#myCanvas').mousedown(function (e) {
+//         mousePressed = true;
+//         originX = e.pageX - $(this).offset().left
+//         originY = e.pageY - $(this).offset().top
+//         Draw(originX, originY, false);
+//     });
+
+//     $('#myCanvas').mousemove(function (e) {
+//         if (mousePressed) {
+//         duringX = e.pageX - $(this).offset().left
+//         duringY = e.pageY - $(this).offset().top
+//         Draw(duringX, duringY, true);
+//         }
+//     });
+
+//     $('#myCanvas').mouseup(function (e) {
+//         mousePressed = false;
+//         endX = e.pageX - $(this).offset().left
+//         endY = e.pageY - $(this).offset().top
+//         Draw(duringX, duringY, true);
+//     });
 	
-    $('#myCanvas').mouseleave(function (e) {
-        mousePressed = false;
-    });
-}
+//     $('#myCanvas').mouseleave(function (e) {
+//         mousePressed = false;
+//     });
+
+//     } else {
+//         console.log("line is off");
+//     }
+// }
 
 
 
-function Rec() {
+// function Rec(arg) {
+//     console.log('here');
+// console.log(arg);
+//    if (isActiveRec = true) {
+       
+//     ctx = document.getElementById('myCanvas').getContext("2d");
+
+//     $('#myCanvas').mousedown(function (e) {
+//         mousePressed = true;
+//         originX = e.pageX - $(this).offset().left
+//         originY = e.pageY - $(this).offset().top
+//         DrawRectangle(originX, originY, false);
+//     });
+
+//     $('#myCanvas').mousemove(function (e) {
+//         if (mousePressed) {
+//         duringX = e.pageX - $(this).offset().left
+//         duringY = e.pageY - $(this).offset().top
+//         DrawRectangle(duringX, duringY, false);
+//         }
+//     });
+
+//     $('#myCanvas').mouseup(function (e) {
+//         mousePressed = false;
     
-    ctx = document.getElementById('myCanvas').getContext("2d");
-
-    $('#myCanvas').mousedown(function (e) {
-        mousePressed = true;
-        originX = e.pageX - $(this).offset().left
-        originY = e.pageY - $(this).offset().top
-        // console.log(originX);
-        // console.log(originY);
-        DrawRectangle(originX, originY, false);
-    });
-
-    $('#myCanvas').mousemove(function (e) {
-        if (mousePressed) {
-        duringX = e.pageX - $(this).offset().left
-        duringY = e.pageY - $(this).offset().top
-        // console.log(duringX)
-        // console.log(duringY)
-        DrawRectangle(duringX, duringY, false);
-        }
-    });
-
-    $('#myCanvas').mouseup(function (e) {
-        mousePressed = false;
-    
-        endX = e.pageX - $(this).offset().left
-        endY = e.pageY - $(this).offset().top
-        // console.log(endX)
-        // console.log(endY)
-        DrawRectangle(duringX, duringY, true);
-    });
+//         endX = e.pageX - $(this).offset().left
+//         endY = e.pageY - $(this).offset().top
+//         DrawRectangle(duringX, duringY, true);
+//     });
 	
-    $('#myCanvas').mouseleave(function (e) {
-        mousePressed = false;
-    });
-}
+//     $('#myCanvas').mouseleave(function (e) {
+//         mousePressed = false;
+//     });
+//    } else { 
+//        console.log("rec is off")
+//    }
+// }
 
 
 function Draw(x, y, isDown) {
