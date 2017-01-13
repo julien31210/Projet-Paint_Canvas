@@ -4,18 +4,32 @@ var mousePressed = false;
 var lastX, lastY, originX, originY, duringX, duringY, endX, endY;
 var ctx;
 var canvas = document.getElementById('myCanvas')
+
 ctx = canvas.getContext("2d");
+
+var imgData=ctx.getImageData(0,0,canvas.width,canvas.height);
+var data=imgData.data;
+for(var i=0;i<data.length;i+=4){
+    if(data[i+3]<255){
+        data[i]=255;
+        data[i+1]=255;
+        data[i+2]=255;
+        data[i+3]=255;
+    }
+}
+ctx.putImageData(imgData,0,0);
+
 var isActiveLine;
 var isActiveRec;
        
+$('#myCanvas').css('background-color', 'rgba(158, 167, 184, 0.2)');
+
 $('button').each(function () {
     var $this = $(this);
     $this.on("click", function () {
         
         var tool = ($(this).data('tools'));
         // console.log(tool);
-
-
 
     $('#myCanvas').mousedown(function (e) {
         mousePressed = true;
@@ -103,10 +117,27 @@ $("#clear").click(function(){
     clearArea();
 })
 function clearArea() {
-
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    var imgData=ctx.getImageData(0,0,canvas.width,canvas.height);
+var data=imgData.data;
+for(var i=0;i<data.length;i+=4){
+    if(data[i+3]<255){
+        data[i]=255;
+        data[i+1]=255;
+        data[i+2]=255;
+        data[i+3]=255;
+    }
 }
+ctx.putImageData(imgData,0,0);
+}
+
+
+function download() {
+    var dt = canvas.toDataURL('image/png');
+    this.href = dt;
+};
+downloadLnk.addEventListener('click', download, false);
 
 
     
